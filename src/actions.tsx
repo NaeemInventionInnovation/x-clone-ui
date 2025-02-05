@@ -1,12 +1,6 @@
 "use server"
 
-import ImageKit from "imagekit";
-
-const imagekit = new ImageKit({
-  publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,
-  privateKey: process.env.PRIVATE_KEY!,
-  urlEndpoint: process.env.NEXT_PUBLIC_URL_ENDPOINT!,
-});
+import { imagekit } from "./utils";
 
 export const shareAction = async (
   formData: FormData,
@@ -31,7 +25,10 @@ export const shareAction = async (
     folder: "/posts",
     transformation: {
       pre: transformation
-    }
+    },
+    customMetadata: {
+      sensitive: settings.sensitive,
+    },
   },
     function (error, result) {
       if (error) console.log(error);
